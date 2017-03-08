@@ -11,13 +11,13 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.six import text_type
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 from unidecode import unidecode
 
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtail.wagtailadmin.utils import send_mail
 from wagtail.wagtailcore import hooks
 from wagtail.wagtailcore.models import Orderable, Page, UserPagePermissionsProxy, get_page_models
-
 from .forms import FormBuilder, WagtailAdminFormPageForm
 
 FORM_FIELD_CHOICES = (
@@ -89,7 +89,9 @@ class AbstractFormField(Orderable):
     choices = models.TextField(
         verbose_name=_('choices'),
         blank=True,
-        help_text=_('Comma separated list of choices. Only applicable in checkboxes, radio and dropdown.')
+        help_text=_('Separated list of choices (use {} to separate). Only applicable in checkboxes, radio and dropdown.'.format(
+            getattr(settings, "WAGTAILFORMS_FIELD_CHOICES_SEPARATOR", ",")
+        ))
     )
     default_value = models.CharField(
         verbose_name=_('default value'),

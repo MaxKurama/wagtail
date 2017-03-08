@@ -6,6 +6,9 @@ import django.forms
 from django.utils.translation import ugettext_lazy as _
 
 from wagtail.wagtailadmin.forms import WagtailAdminPageForm
+from django.conf import settings
+
+__sep__ = getattr(settings, "WAGTAILFORMS_FIELD_CHOICES_SEPARATOR", ",")
 
 
 class BaseForm(django.forms.Form):
@@ -48,20 +51,20 @@ class FormBuilder(object):
     def create_dropdown_field(self, field, options):
         options['choices'] = map(
             lambda x: (x.strip(), x.strip()),
-            field.choices.split(',')
+            field.choices.split(__sep__)
         )
         return django.forms.ChoiceField(**options)
 
     def create_radio_field(self, field, options):
         options['choices'] = map(
             lambda x: (x.strip(), x.strip()),
-            field.choices.split(',')
+            field.choices.split(__sep__)
         )
         return django.forms.ChoiceField(widget=django.forms.RadioSelect, **options)
 
     def create_checkboxes_field(self, field, options):
-        options['choices'] = [(x.strip(), x.strip()) for x in field.choices.split(',')]
-        options['initial'] = [x.strip() for x in field.default_value.split(',')]
+        options['choices'] = [(x.strip(), x.strip()) for x in field.choices.split(__sep__)]
+        options['initial'] = [x.strip() for x in field.default_value.split(__sep__)]
         return django.forms.MultipleChoiceField(
             widget=django.forms.CheckboxSelectMultiple, **options
         )
