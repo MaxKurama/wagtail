@@ -72,7 +72,7 @@ class FormBuilder(object):
     def create_checkbox_field(self, field, options):
         return django.forms.BooleanField(**options)
 
-    def create_file_field(self, field, **options):
+    def create_file_field(self, field, options):
         return django.forms.FileField(**options)
 
     FIELD_TYPES = {
