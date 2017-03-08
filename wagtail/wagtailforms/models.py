@@ -32,6 +32,7 @@ FORM_FIELD_CHOICES = (
     ('radio', _('Radio buttons')),
     ('date', _('Date')),
     ('datetime', _('Date/time')),
+    ('file', _('File')),
 )
 
 
